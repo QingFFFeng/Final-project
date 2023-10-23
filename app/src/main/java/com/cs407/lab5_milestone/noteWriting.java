@@ -69,7 +69,6 @@ public class noteWriting extends AppCompatActivity {
         content = notesList.get(noteId).getContent();
         editText.setText(content);
     }
-
     private void saveOrUpdateNote() {
         content = editText.getText().toString();
         context = getApplicationContext();
@@ -91,7 +90,10 @@ public class noteWriting extends AppCompatActivity {
             title = "NOTES_" + (noteId + 1);
             dbHelper.updateNotes(content, date, title, username);
         }
-        navigateToNotePage();
+        Intent intent = new Intent();
+        intent.putExtra("refresh", true);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     private void deleteNote() {
@@ -104,11 +106,10 @@ public class noteWriting extends AppCompatActivity {
         content = editText.getText().toString();
         title = "NOTES_" + (noteId + 1);
         dbHelper.deleteNotes(content, title);
-        navigateToNotePage();
+        Intent intent = new Intent();
+        intent.putExtra("refresh", true);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
-    private void navigateToNotePage() {
-        Intent intent = new Intent(noteWriting.this, NotePage.class);
-        startActivity(intent);
-    }
 }

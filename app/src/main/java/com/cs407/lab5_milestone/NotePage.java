@@ -23,10 +23,11 @@ public class NotePage extends AppCompatActivity {
     private SQLiteDatabase sqLiteDatabase;
     private DBHelper dbHelper;
     private String username;
-    public static ArrayList<Notes> notes1 = new ArrayList<>();
+    private ArrayList<String> displayNotes;
+    private ArrayAdapter<String> adapter;
     TextView textView;
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notepage);
 
@@ -35,21 +36,22 @@ public class NotePage extends AppCompatActivity {
         Intent intent = getIntent();
         username = intent.getStringExtra("message");
         textView.setText("Welcome " + username + " to notes app!");
-        //2. Get SOLiteDatabase Instance
+
+        //2. Get SQLiteDatabase Instance
         sqLiteDatabase = openOrCreateDatabase("notes", Context.MODE_PRIVATE, null);
 
         //3. Initialize the "notes" class variable using readNotes method implemented in the DBHelper class.
         dbHelper = new DBHelper(sqLiteDatabase);
         dbHelper.createTable();
-        //  use the username you got from SharedPreferences as a parameter to readNotes method.
-        //4 .Create an ArrayList <String> object for iterating over notes.
-        ArrayList<String> displayNotes = new ArrayList<>();
+
+        //4. Create an ArrayList<String> object for iterating over notes.
+        displayNotes = new ArrayList<>();
         ArrayList<Notes> notesList = dbHelper.readNotes(username);
         for (Notes note : notesList) {
             displayNotes.add(String.format("Title:%s\nDate:%s", note.getTitle(), note.getDate()));
         }
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, displayNotes);
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, displayNotes);
         ListView notesListView = (ListView) findViewById(R.id.list);
         notesListView.setAdapter(adapter);
 
@@ -58,7 +60,6 @@ public class NotePage extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), noteWriting.class);
                 intent.putExtra("noteId", i);
-//                startActivity(intent);
                 openNoteWritingActivity(i);
             }
         });
@@ -101,6 +102,39 @@ public class NotePage extends AppCompatActivity {
         Intent intent = new Intent(this, noteWriting.class);
         intent.putExtra("noteId", noteId);
         intent.putExtra("username", username);
-        startActivity(intent);
+        startActivityForResult(intent, 1); // Using a request code (1 in this case)
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        boolean shouldRefresh = getIntent().getBooleanExtra("refresh", false);
+
+        if (shouldRefresh) {
+            // Refresh the ListView
+            displayNotes.clear();
+            ArrayList<Notes> notesList = dbHelper.readNotes(username);
+            for (Notes note : notesList) {
+                displayNotes.add(String.format("Title:%s\nDate:%s", note.getTitle(), note.getDate()));
+            }
+            adapter.notifyDataSetChanged();
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            boolean shouldRefresh = data.getBooleanExtra("refresh", false);
+            if (shouldRefresh) {
+                displayNotes.clear();
+                ArrayList<Notes> notesList = dbHelper.readNotes(username);
+                for (Notes note : notesList) {
+                    displayNotes.add(String.format("Title:%s\nDate:%s", note.getTitle(), note.getDate()));
+                }
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
 }
