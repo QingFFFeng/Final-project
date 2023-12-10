@@ -26,10 +26,14 @@ public class Restaurant implements Serializable {
     private transient Place place;
     private String photoReference; // 用于Intent传递和图片加载
     private float rating;
+    private double latitude;  // Add latitude property
+    private double longitude; // Add longitude property
 
-    public Restaurant(String name, PhotoMetadata photoMetadata, String photoReference) {
+    public Restaurant(String name, PhotoMetadata photoMetadata, String photoReference,double latitude, double longitude) {
         this.name = name;
         this.photoMetadata = photoMetadata;
+        this.latitude = latitude;
+        this.longitude = longitude;
 //        this.place = place;
         if (photoMetadata != null) {
 //            this.photoReference = photoMetadata.getAttributions(); // 或者使用其他唯一标识
@@ -63,6 +67,15 @@ public class Restaurant implements Serializable {
 
     public String getFormattedRating() {
         return rating + "\n" + getStarRating();
+    }
+
+    // Add these methods in your Restaurant class
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 
 

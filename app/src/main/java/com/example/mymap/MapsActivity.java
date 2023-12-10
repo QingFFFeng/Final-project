@@ -56,6 +56,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
 
+    double latitude = 0.0;
+    double longitude = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,8 +159,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             Log.i(TAG, String.valueOf(photoReference));
                         }
 
-
-                        restaurants.add(new Restaurant(place.getName()+'\n'+place.getAddress(), photoMetadata, photoReference));
+                        if (place.getLatLng() != null) {
+                            latitude = place.getLatLng().latitude;
+                            longitude = place.getLatLng().longitude;
+                        }
+                        restaurants.add(new Restaurant(
+                                place.getName() + '\n' + place.getAddress(),
+                                photoMetadata,
+                                photoReference,
+                                latitude,
+                                longitude
+                        ));
                     }
 
                     // 添加到餐馆列表
