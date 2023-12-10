@@ -20,7 +20,6 @@ public class noteWriting extends AppCompatActivity {
 
     private EditText editText;
     private Button buttonSave;
-    private Button buttonDelete;
     private int noteId = -1;
     private String username;
     private String title;
@@ -38,7 +37,6 @@ public class noteWriting extends AppCompatActivity {
 
         editText = findViewById(R.id.writehere);
         buttonSave = findViewById(R.id.save);
-        buttonDelete = findViewById(R.id.delete);
 
         if (noteId != -1) {
             loadExistingNote();
@@ -51,12 +49,7 @@ public class noteWriting extends AppCompatActivity {
             }
         });
 
-        buttonDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deleteNote();
-            }
-        });
+
     }
 
     private void loadExistingNote() {

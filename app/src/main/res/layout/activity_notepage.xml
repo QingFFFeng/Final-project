@@ -6,14 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".NotePage">
 
-
     <TextView
         android:id="@+id/Notes"
         android:layout_width="410dp"
         android:layout_height="46dp"
         android:layout_marginBottom="38dp"
         android:background="#713CCF"
-        android:text="Notes"
+        android:text="   Profile"
         android:textColor="#F4F4F4"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/welcome"

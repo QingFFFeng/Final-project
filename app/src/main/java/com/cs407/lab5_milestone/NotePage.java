@@ -35,7 +35,7 @@ public class NotePage extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.welcome);
         Intent intent = getIntent();
         username = intent.getStringExtra("message");
-        textView.setText("Welcome " + username + " to notes app!");
+        textView.setText("Welcome " + username + " to Gourmet!");
 
         //2. Get SQLiteDatabase Instance
         sqLiteDatabase = openOrCreateDatabase("notes", Context.MODE_PRIVATE, null);
@@ -47,8 +47,13 @@ public class NotePage extends AppCompatActivity {
         //4. Create an ArrayList<String> object for iterating over notes.
         displayNotes = new ArrayList<>();
         ArrayList<Notes> notesList = dbHelper.readNotes(username);
-        for (Notes note : notesList) {
-            displayNotes.add(String.format("Title:%s\nDate:%s", note.getTitle(), note.getDate()));
+//        for (Notes note : notesList) {
+//            displayNotes.add(String.format("Title:%s\nDate:%s", note.getTitle(), note.getDate()));
+//        }
+
+        for (int i = 0; i < notesList.size(); i++) {
+            String customTitle = getCustomTitleForNote(i);
+            displayNotes.add(String.format(customTitle));
         }
 
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, displayNotes);
@@ -64,6 +69,26 @@ public class NotePage extends AppCompatActivity {
             }
         });
     }
+
+    private String getCustomTitleForNote(int position) {
+        switch (position) {
+            case 0:
+                return "Username";
+            case 1:
+                return "Contact";
+            case 2:
+                return "Address";
+            case 3:
+                return "Preference";
+            case 4:
+                return "Payment";
+            case 5:
+                return "Help";
+            default:
+                return "Default Title";
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -114,8 +139,9 @@ public class NotePage extends AppCompatActivity {
             // Refresh the ListView
             displayNotes.clear();
             ArrayList<Notes> notesList = dbHelper.readNotes(username);
-            for (Notes note : notesList) {
-                displayNotes.add(String.format("Title:%s\nDate:%s", note.getTitle(), note.getDate()));
+            for (int i = 0; i < notesList.size(); i++) {
+                String customTitle = getCustomTitleForNote(i);
+                displayNotes.add(String.format(customTitle));
             }
             adapter.notifyDataSetChanged();
         }
@@ -129,8 +155,9 @@ public class NotePage extends AppCompatActivity {
             if (shouldRefresh) {
                 displayNotes.clear();
                 ArrayList<Notes> notesList = dbHelper.readNotes(username);
-                for (Notes note : notesList) {
-                    displayNotes.add(String.format("Title:%s\nDate:%s", note.getTitle(), note.getDate()));
+                for (int i = 0; i < notesList.size(); i++) {
+                    String customTitle = getCustomTitleForNote(i);
+                    displayNotes.add(String.format(customTitle));
                 }
                 adapter.notifyDataSetChanged();
             }
