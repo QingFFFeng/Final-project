@@ -10,16 +10,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+
     public void clickFunction(View view) {
-        EditText userid = (EditText) findViewById(R.id.textUserName);
-        goToActivity();
-        SharedPreferences sharedPreferences = getSharedPreferences("com.cs407.lab5_milestone", MODE_PRIVATE);
-        sharedPreferences.edit().putString("username", userid.getText().toString()).apply();
+        EditText userIdEditText = findViewById(R.id.textUserName);
+        String userId = userIdEditText.getText().toString();
+
+        // Check if the user ID is not empty
+        if (!userId.isEmpty()) {
+            // Save user ID in SharedPreferences
+            SharedPreferences sharedPreferences = getSharedPreferences("com.cs407.lab5_milestone", MODE_PRIVATE);
+            sharedPreferences.edit().putString("username", userId).apply();
+
+            // Launch HomePage activity
+            goToActivity();
+        }
     }
 
     public void goToActivity() {
         Intent intent = new Intent(this, HomePage.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

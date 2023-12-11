@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.START_OTHER_APPS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
 
     <application
         android:allowBackup="true"
@@ -13,8 +15,10 @@
         android:theme="@style/Theme.Mymap"
         tools:targetApi="31">
 
+        <activity android:name=".NotePage" />
+        <activity android:name=".noteWriting" />
 
-       <meta-data
+        <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBKIUTYgfoQLK4kobf121iMfPQ90eRNr64" />
 

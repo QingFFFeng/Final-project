@@ -1,9 +1,10 @@
 package com.example.mymap;
-
+import com.example.mymap.NotePage;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ public class HomePage extends AppCompatActivity {
 
     }
 
+
     public void logout(View view){
         SharedPreferences sharedPreferences = getSharedPreferences("com.cs407.lab5_milestone", MODE_PRIVATE);
         sharedPreferences.edit().clear().apply();
@@ -36,6 +38,28 @@ public class HomePage extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToNotePage(View view) {
+        Intent intent = new Intent(this, NotePage.class);
+        SharedPreferences sharedPreferences = getSharedPreferences("com.cs407.lab5_milestone", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "");
+        intent.putExtra("message", username);
+        startActivity(intent);
     }
+
+    public void goToGoogleMaps(View view) {
+        // Create an intent with a geo URI to open Google Maps
+        Uri gmmIntentUri = Uri.parse("geo:0,0?q=Googleplex,Google+Inc.,Mountain+View,CA");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+
+        // Check if there is an app to handle the intent
+        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapIntent);
+        } else {
+            Toast.makeText(this, "Google Maps app not installed", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+}
 
 
