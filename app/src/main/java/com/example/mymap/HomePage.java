@@ -48,7 +48,7 @@ public class HomePage extends AppCompatActivity {
 
     public void goToGoogleMaps(View view) {
         // Create an intent with a geo URI to open Google Maps
-        Uri gmmIntentUri = Uri.parse("geo:0,0?q=Googleplex,Google+Inc.,Mountain+View,CA");
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + "china wok 1724 Forden Ave, Madison, WI 53704, USA");
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
 
@@ -58,6 +58,10 @@ public class HomePage extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Google Maps app not installed", Toast.LENGTH_SHORT).show();
         }
+    }
+    public void goToMapsActivity(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 
 }

@@ -18,6 +18,8 @@
         <activity android:name=".NotePage" />
         <activity android:name=".noteWriting" />
 
+
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBKIUTYgfoQLK4kobf121iMfPQ90eRNr64" />
