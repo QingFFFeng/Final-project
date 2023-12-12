@@ -46,25 +46,16 @@ public class HomePage extends AppCompatActivity {
     }
 
     public void goToGoogleMaps(View view) {
-        // 获取从 RestaurantsListActivity 传递过来的选中餐厅地址
-        String selectedRestaurantAddress = getIntent().getStringExtra("selected_restaurant_address");
+        // Create an intent with a geo URI to open Google Maps
+        Uri gmmIntentUri = Uri.parse("geo:0,0?q=University+of+Wisconsin-Madison");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
 
-        // 检查是否有地址
-        if (selectedRestaurantAddress != null && !selectedRestaurantAddress.isEmpty()) {
-            // 创建一个地图的 Intent
-            Uri gmmIntentUri = Uri.parse("google.navigation:q=" + selectedRestaurantAddress);
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-            mapIntent.setPackage("com.google.android.apps.maps");
-
-            // 检查是否有应用程序来处理该 Intent
-            if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                startActivity(mapIntent);
-            } else {
-                Toast.makeText(this, "Google Maps app not installed", Toast.LENGTH_SHORT).show();
-            }
+        // Check if there is an app to handle the intent
+        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapIntent);
         } else {
-            // 提示用户没有选择餐厅
-            Toast.makeText(this, "Please select a restaurant first", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Google Maps app not installed", Toast.LENGTH_SHORT).show();
         }
     }
 
