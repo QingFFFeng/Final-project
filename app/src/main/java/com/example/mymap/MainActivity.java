@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
         EditText userIdEditText = findViewById(R.id.textUserName);
         String userId = userIdEditText.getText().toString();
 
+        userId = sanitizeUserId(userId);
         // Check if the user ID is not empty
         if (!userId.isEmpty()) {
             // Save user ID in SharedPreferences
@@ -25,7 +26,13 @@ public class MainActivity extends AppCompatActivity {
             goToActivity();
         }
     }
+    private String sanitizeUserId(String userId) {
+        // Define your regex pattern for a valid user ID
+        String regex = "[a-zA-Z0-9]+"; // Example: Alphanumeric characters only
 
+        // Remove any characters that do not match the pattern
+        return userId.replaceAll("[^a-zA-Z0-9]", "");
+    }
     public void goToActivity() {
         Intent intent = new Intent(this, HomePage.class);
         startActivity(intent);
