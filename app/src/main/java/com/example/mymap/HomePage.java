@@ -1,5 +1,5 @@
 package com.example.mymap;
-import com.example.mymap.NotePage;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,27 +10,26 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class HomePage extends AppCompatActivity {
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage_layout);
         TextView textView = findViewById(R.id.textView);
-        Intent intent = getIntent();
-
 
         Context context = getApplicationContext();
         SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase("notes", Context.MODE_PRIVATE, null);
         SharedPreferences sharedPreferences = getSharedPreferences("com.cs407.lab5_milestone", Context.MODE_PRIVATE);
         String s = sharedPreferences.getString("username", "");
         textView.setText("Welcome " + s + " to notes app !");
-
     }
 
-
-    public void logout(View view){
+    public void logout(View view) {
         SharedPreferences sharedPreferences = getSharedPreferences("com.cs407.lab5_milestone", MODE_PRIVATE);
         sharedPreferences.edit().clear().apply();
         Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
@@ -47,23 +46,55 @@ public class HomePage extends AppCompatActivity {
     }
 
     public void goToGoogleMaps(View view) {
-        // Create an intent with a geo URI to open Google Maps
-        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + "china wok 1724 Forden Ave, Madison, WI 53704, USA");
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        mapIntent.setPackage("com.google.android.apps.maps");
+        // 获取从 RestaurantsListActivity 传递过来的选中餐厅地址
+        String selectedRestaurantAddress = getIntent().getStringExtra("selected_restaurant_address");
 
-        // Check if there is an app to handle the intent
-        if (mapIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(mapIntent);
+        // 检查是否有地址
+        if (selectedRestaurantAddress != null && !selectedRestaurantAddress.isEmpty()) {
+            // 创建一个地图的 Intent
+            Uri gmmIntentUri = Uri.parse("google.navigation:q=" + selectedRestaurantAddress);
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+
+            // 检查是否有应用程序来处理该 Intent
+            if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(mapIntent);
+            } else {
+                Toast.makeText(this, "Google Maps app not installed", Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Toast.makeText(this, "Google Maps app not installed", Toast.LENGTH_SHORT).show();
+            // 提示用户没有选择餐厅
+            Toast.makeText(this, "Please select a restaurant first", Toast.LENGTH_SHORT).show();
         }
     }
+
+
     public void goToMapsActivity(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
+        // The second parameter is the callback for handling the result
+        resultLauncher.launch(intent);
     }
 
+    private final ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    Intent data = result.getData();
+                    if (data != null) {
+                        // 获取选中餐厅的地址
+                        String selectedRestaurantAddress = data.getStringExtra("selected_restaurant_address");
+
+                        // 使用地址进行其他操作，例如启动 Google Maps
+                        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + selectedRestaurantAddress);
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+                        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(mapIntent);
+                        } else {
+                            Toast.makeText(this, "Google Maps app not installed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            }
+    );
 }
-
-

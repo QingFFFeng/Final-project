@@ -1,4 +1,5 @@
 package com.example.mymap;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -10,10 +11,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.mymap.adapters.Restaurant;
 import com.example.mymap.adapters.RestaurantListAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RestaurantsListActivity extends AppCompatActivity {
@@ -40,33 +41,29 @@ public class RestaurantsListActivity extends AppCompatActivity {
             Toast.makeText(this, "Google Maps 未安装", Toast.LENGTH_SHORT).show();
         }
 
-//    restaurantList = new ArrayList<>();
         restaurantList = (List<Restaurant>) getIntent().getSerializableExtra("restaurants_list");
         if (restaurantList != null) {
             adapter = new RestaurantListAdapter(this, restaurantList);
             listView.setAdapter(adapter);
 
-            // 修改为使用setOnItemClickListener()方法
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // 获取选中的餐厅
+                    Log.d("RestaurantsListActivity", "onItemClick triggered");
                     Restaurant selectedRestaurant = restaurantList.get(position);
-                    double latitude = selectedRestaurant.getLatitude();
-                    double longitude = selectedRestaurant.getLongitude();
 
-                    // 启动导航应用程序
-                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + latitude + "," + longitude));
-                    mapIntent.setPackage("com.google.android.apps.maps");
-                    if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                        startActivity(mapIntent);
-                    } else {
-                        Log.e("RestaurantsListActivity", "Google Maps app not installed");
-                    }
+                    // 获取餐厅地址
+                    String selectedRestaurantAddress = selectedRestaurant.getName(); // 请确保你的 Restaurant 类有一个获取地址的方法
+                    Log.d("RestaurantsListActivity", "Selected Restaurant Name: " + selectedRestaurantAddress);
+                    // 设置结果和结束活动
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("selected_restaurant_address", selectedRestaurantAddress);
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
                 }
+
             });
-        } else {
-            // 如果restaurantList为空，可能需要处理错误或显示空状态
-            Log.e("RestaurantsListActivity", "No restaurant data received");
         }
     }
 }
