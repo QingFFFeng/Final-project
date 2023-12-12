@@ -66,12 +66,12 @@
         android:id="@+id/buttonFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="61dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="511dp"
-        android:layout_marginEnd="262dp"
+        android:layout_marginEnd="268dp"
         android:layout_marginBottom="172dp"
-        android:text="Filter"
         android:onClick="goToMapsActivity"
+        android:text="Search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,12 +81,12 @@
         android:id="@+id/buttonLocal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="179dp"
-        android:layout_marginTop="509dp"
-        android:layout_marginEnd="141dp"
-        android:layout_marginBottom="174dp"
-        android:text="Local"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="511dp"
+        android:layout_marginEnd="155dp"
+        android:layout_marginBottom="172dp"
         android:onClick="goToNotePage"
+        android:text="Profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,12 +96,12 @@
         android:id="@+id/buttonEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="292dp"
+        android:layout_marginStart="270dp"
         android:layout_marginTop="510dp"
-        android:layout_marginEnd="31dp"
+        android:layout_marginEnd="14dp"
         android:layout_marginBottom="173dp"
-        android:text="empty"
         android:onClick="goToGoogleMaps"
+        android:text="Navigation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -122,7 +122,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/password"
+        app:srcCompat="@drawable/american_food"
         tools:visibility="visible" />
 
     <ImageView
@@ -137,7 +137,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/password" />
+        app:srcCompat="@drawable/indian_food" />
 
     <ImageView
         android:id="@+id/imageView13"
@@ -151,12 +151,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/password" />
+        app:srcCompat="@drawable/chinese" />
 
     <ImageView
         android:id="@+id/imageView14"
-        android:layout_width="269dp"
-        android:layout_height="227dp"
+        android:layout_width="315dp"
+        android:layout_height="260dp"
         android:layout_marginStart="71dp"
         android:layout_marginTop="252dp"
         android:layout_marginEnd="71dp"
@@ -165,6 +165,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/password" />
+        app:srcCompat="@drawable/turkish_food" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
