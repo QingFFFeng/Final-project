@@ -77,18 +77,25 @@
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="69dp"
-        android:layout_height="66dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="373dp"
+        android:layout_width="50dp"
+        android:layout_height="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/TextPassword"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView7"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:layout_constraintVertical_bias="0.202"
         app:srcCompat="@drawable/password" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="51dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="264dp"
+        app:layout_constraintEnd_toStartOf="@+id/textUserName"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/account" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
