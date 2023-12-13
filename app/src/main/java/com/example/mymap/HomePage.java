@@ -26,7 +26,7 @@ public class HomePage extends AppCompatActivity {
         SQLiteDatabase sqLiteDatabase = context.openOrCreateDatabase("notes", Context.MODE_PRIVATE, null);
         SharedPreferences sharedPreferences = getSharedPreferences("com.cs407.lab5_milestone", Context.MODE_PRIVATE);
         String s = sharedPreferences.getString("username", "");
-        textView.setText("Welcome " + s + " to notes app !");
+        textView.setText("Welcome " + s + " to Gourmet app !");
     }
 
     public void logout(View view) {
